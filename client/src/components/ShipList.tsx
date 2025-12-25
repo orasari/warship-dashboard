@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { Grid } from 'react-window';
+import { useRef, useEffect, useState } from 'react';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { NormalizedShip } from '../types/api.types';
 import ShipCard from './ShipCard';
 
@@ -8,53 +8,93 @@ interface ShipListProps {
 }
 
 export default function ShipList({ ships }: ShipListProps) {
-  // Responsive column calculation
-  const getColumnCount = (width: number) => {
-    if (width >= 1536) return 4; // 2xl
-    if (width >= 1280) return 4; // xl
-    if (width >= 1024) return 3; // lg
-    if (width >= 768) return 2;  // md
-    return 1; // sm
-  };
-
-  const CARD_WIDTH = 320;
-  const CARD_HEIGHT = 280;
+  const parentRef = useRef<HTMLDivElement>(null);
+  const [columnCount, setColumnCount] = useState(4);
+  
+  const CARD_MIN_WIDTH = 280;
   const GAP = 16;
 
-  // Get column count based on current window width
-  const columnCount = getColumnCount(window.innerWidth);
-  const rowCount = Math.ceil(ships.length / columnCount);
-
-  // Cell renderer component for react-window v2.x
-  const CellRenderer = useMemo(() => {
-    return ({ columnIndex, rowIndex, style }: any) => {
-      const index = rowIndex * columnCount + columnIndex;
-
-      if (index >= ships.length) {
-        return <div style={style} />;
+  // Calculate columns based on container width
+  useEffect(() => {
+    const updateColumns = () => {
+      if (parentRef.current) {
+        const width = parentRef.current.offsetWidth;
+        const cols = Math.floor(width / (CARD_MIN_WIDTH + GAP));
+        setColumnCount(Math.max(1, cols));
       }
-
-      const ship = ships[index];
-
-      return (
-        <div style={style}>
-          <ShipCard ship={ship} />
-        </div>
-      );
     };
-  }, [ships, columnCount]);
+
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
+
+  // Calculate card width to fill available space
+  const cardWidth = parentRef.current 
+    ? (parentRef.current.offsetWidth - (GAP * (columnCount - 1))) / columnCount
+    : CARD_MIN_WIDTH;
+
+  // Group ships into rows
+  const rows: NormalizedShip[][] = [];
+  for (let i = 0; i < ships.length; i += columnCount) {
+    rows.push(ships.slice(i, i + columnCount));
+  }
+
+  // Virtualizer for rows
+  const rowVirtualizer = useVirtualizer({
+    count: rows.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 340, // Estimated row height (card height + gap)
+    overscan: 3,
+  });
 
   return (
-    <div style={{ height: 'calc(100vh - 120px)', minHeight: '500px', width: 'calc(100vw - 400px)' }}>
-      <Grid
-        cellComponent={CellRenderer}
-        cellProps={{}}
-        columnCount={columnCount}
-        columnWidth={CARD_WIDTH + GAP}
-        rowCount={rowCount}
-        rowHeight={CARD_HEIGHT + GAP}
-        style={{ width: '100%', height: '100%' }}
-      />
+    <div
+      ref={parentRef}
+      className="h-full w-full overflow-y-auto overflow-x-hidden"
+    >
+      <div
+        style={{
+          height: `${rowVirtualizer.getTotalSize()}px`,
+          width: '100%',
+          position: 'relative',
+        }}
+      >
+        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+          const row = rows[virtualRow.index];
+          
+          return (
+            <div
+              key={virtualRow.key}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: `${virtualRow.size}px`,
+                transform: `translateY(${virtualRow.start}px)`,
+              }}
+            >
+              <div
+                className="flex gap-4"
+                style={{ height: '100%' }}
+              >
+                {row.map((ship) => (
+                  <div
+                    key={ship.id}
+                    style={{ 
+                      width: `${cardWidth}px`,
+                      flexShrink: 0,
+                    }}
+                  >
+                    <ShipCard ship={ship} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

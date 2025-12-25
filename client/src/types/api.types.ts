@@ -100,6 +100,8 @@ export interface FilterState {
   selectedNations: string[];
   selectedTypes: string[];
   selectedLevels: number[];
+  showPremiumOnly: boolean;
+  showSpecialOnly: boolean;
 }
 
 // Sort options

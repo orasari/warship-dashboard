@@ -43,6 +43,8 @@ const initialState: ShipsState = {
     selectedNations: [],
     selectedTypes: [],
     selectedLevels: [],
+    showPremiumOnly: false,
+    showSpecialOnly: false,
   },
   sortBy: 'level',
   sortDirection: 'asc',
@@ -93,12 +95,11 @@ const filterShips = (
   filters: FilterState
 ): NormalizedShip[] => {
   return ships.filter(ship => {
-    // Search query
+    // Search query - only by name
     if (filters.searchQuery) {
       const query = filters.searchQuery.toLowerCase();
       const matchesName = ship.displayName.toLowerCase().includes(query);
-      const matchesDescription = ship.description.toLowerCase().includes(query);
-      if (!matchesName && !matchesDescription) return false;
+      if (!matchesName) return false;
     }
     
     // Nations filter
@@ -115,6 +116,12 @@ const filterShips = (
     if (filters.selectedLevels.length > 0) {
       if (!filters.selectedLevels.includes(ship.level)) return false;
     }
+    
+    // Premium filter
+    if (filters.showPremiumOnly && !ship.isPremium) return false;
+    
+    // Special filter
+    if (filters.showSpecialOnly && !ship.isSpecial) return false;
     
     return true;
   });
@@ -255,6 +262,32 @@ const shipsSlice = createSlice({
         state.sortDirection
       );
     },
+    
+    togglePremiumFilter: (state) => {
+      state.filters.showPremiumOnly = !state.filters.showPremiumOnly;
+      // Turn off Special if Premium is being turned on
+      if (state.filters.showPremiumOnly) {
+        state.filters.showSpecialOnly = false;
+      }
+      state.filteredShips = sortShips(
+        filterShips(state.normalizedShips, state.filters),
+        state.sortBy,
+        state.sortDirection
+      );
+    },
+    
+    toggleSpecialFilter: (state) => {
+      state.filters.showSpecialOnly = !state.filters.showSpecialOnly;
+      // Turn off Premium if Special is being turned on
+      if (state.filters.showSpecialOnly) {
+        state.filters.showPremiumOnly = false;
+      }
+      state.filteredShips = sortShips(
+        filterShips(state.normalizedShips, state.filters),
+        state.sortBy,
+        state.sortDirection
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -299,6 +332,8 @@ export const {
   clearFilters,
   setSortBy,
   setSortDirection,
+  togglePremiumFilter,
+  toggleSpecialFilter,
 } = shipsSlice.actions;
 
 export default shipsSlice.reducer;
