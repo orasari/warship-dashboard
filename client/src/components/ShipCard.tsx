@@ -29,7 +29,7 @@ export default function ShipCard({ ship }: ShipCardProps) {
       tabIndex={0}
       role="button"
       aria-label={`View details for ${ship.displayName}`}
-      className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-lg overflow-hidden hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20 flex flex-col h-full cursor-pointer group focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="card-interactive flex flex-col h-full group"
     >
       {/* Ship Image */}
       <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 h-40 flex items-center justify-center flex-shrink-0 group-hover:from-slate-700 group-hover:to-slate-800 transition-all">
@@ -46,13 +46,13 @@ export default function ShipCard({ ship }: ShipCardProps) {
         )}
 
         {/* Tier Badge */}
-        <div className="absolute top-2 right-2 bg-yellow-600 text-white px-2 py-1 rounded text-sm font-bold">
+        <div className="absolute top-2 right-2 badge-tier">
           {ship.level}
         </div>
 
         {/* Premium Badge */}
         {ship.isPremium && (
-          <div className="absolute top-2 left-2 bg-purple-600 text-white px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
+          <div className="absolute top-2 left-2 badge-premium">
             <Award className="w-3 h-3" />
             Premium
           </div>
@@ -60,7 +60,7 @@ export default function ShipCard({ ship }: ShipCardProps) {
 
         {/* Special Badge */}
         {ship.isSpecial && !ship.isPremium && (
-          <div className="absolute top-2 left-2 bg-cyan-600 text-white px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
+          <div className="absolute top-2 left-2 badge-special">
             <Sparkles className="w-3 h-3" />
             Special
           </div>

@@ -17,7 +17,7 @@ export default function ShipDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
+      <div className="page-container flex items-center justify-center">
         <p className="text-blue-200">Loading ship details...</p>
       </div>
     );
@@ -25,7 +25,7 @@ export default function ShipDetailPage() {
 
   if (!ship) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center p-4">
+      <div className="page-container flex items-center justify-center p-4">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-red-300 mb-4">Ship Not Found</h2>
           <button
@@ -40,7 +40,7 @@ export default function ShipDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
+    <div className="page-container">
       {/* Header */}
       <header className="bg-slate-900/80 backdrop-blur-sm border-b border-blue-500/30 sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
@@ -60,7 +60,7 @@ export default function ShipDetailPage() {
           <div className="flex flex-col md:flex-row items-center gap-8">
             {/* Ship Image */}
             <div className="flex-1 w-full max-w-2xl">
-              <div className="relative aspect-video bg-slate-800/50 rounded-lg overflow-hidden border border-slate-700">
+              <div className="relative aspect-video card-base">
                 <img
                   src={ship.icon}
                   alt={ship.displayName}
@@ -69,19 +69,19 @@ export default function ShipDetailPage() {
                 />
                 
                 {/* Tier Badge */}
-                <div className="absolute top-4 right-4 bg-yellow-600 text-white px-3 py-2 rounded text-lg font-bold">
+                <div className="absolute top-4 right-4 badge-tier-large">
                   Tier {ship.level}
                 </div>
 
                 {/* Premium/Special Badge */}
                 {ship.isPremium && (
-                  <div className="absolute top-4 left-4 bg-purple-600 text-white px-3 py-2 rounded text-sm font-bold flex items-center gap-2">
+                  <div className="absolute top-4 left-4 badge-premium px-3 py-2 text-sm gap-2">
                     <Award className="w-4 h-4" />
                     Premium
                   </div>
                 )}
                 {ship.isSpecial && !ship.isPremium && (
-                  <div className="absolute top-4 left-4 bg-cyan-600 text-white px-3 py-2 rounded text-sm font-bold flex items-center gap-2">
+                  <div className="absolute top-4 left-4 badge-special px-3 py-2 text-sm gap-2">
                     <Sparkles className="w-4 h-4" />
                     Special
                   </div>
@@ -105,7 +105,7 @@ export default function ShipDetailPage() {
               </div>
 
               {ship.description && (
-                <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700">
+                <div className="card-info">
                   <h2 className="text-xl font-semibold text-blue-300 mb-3">Description</h2>
                   <p className="text-slate-300 leading-relaxed">
                     {ship.description}
@@ -121,7 +121,7 @@ export default function ShipDetailPage() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Ship Details Card */}
-          <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700">
+          <div className="card-info">
             <h3 className="text-xl font-semibold text-blue-300 mb-4">Ship Details</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
@@ -144,7 +144,7 @@ export default function ShipDetailPage() {
           </div>
 
           {/* Tags Card */}
-          <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700">
+          <div className="card-info">
             <h3 className="text-xl font-semibold text-blue-300 mb-4">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {ship.tags.map((tag) => (
@@ -159,7 +159,7 @@ export default function ShipDetailPage() {
           </div>
 
           {/* Status Card */}
-          <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700">
+          <div className="card-info">
             <h3 className="text-xl font-semibold text-blue-300 mb-4">Status</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-2">
