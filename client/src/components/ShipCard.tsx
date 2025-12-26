@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Award, Sparkles } from 'lucide-react';
 import { NormalizedShip } from '../types/api.types';
 
@@ -9,20 +10,26 @@ interface ShipCardProps {
 
 export default function ShipCard({ ship, style }: ShipCardProps) {
   const [imgError, setImgError] = useState(false);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/ship/${ship.id}`);
+  };
 
   return (
     <div
       style={style}
-      className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-lg overflow-hidden hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20 flex flex-col h-full"
+      onClick={handleClick}
+      className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-lg overflow-hidden hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20 flex flex-col h-full cursor-pointer group"
     >
       {/* Ship Image */}
-      <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 h-40 flex items-center justify-center flex-shrink-0">
+      <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 h-40 flex items-center justify-center flex-shrink-0 group-hover:from-slate-700 group-hover:to-slate-800 transition-all">
         {ship.icon && !imgError ? (
           <img
             src={ship.icon}
             alt={ship.displayName}
             onError={() => setImgError(true)}
-            className="max-h-full max-w-full object-contain p-2"
+            className="max-h-full max-w-full object-contain p-2 group-hover:scale-105 transition-transform"
             loading="lazy"
           />
         ) : (
@@ -53,7 +60,7 @@ export default function ShipCard({ ship, style }: ShipCardProps) {
 
       {/* Ship Info */}
       <div className="p-4 flex flex-col flex-grow">
-        <h3 className="font-bold text-base text-blue-200 mb-2 truncate">
+        <h3 className="font-bold text-base text-blue-200 mb-2 truncate group-hover:text-blue-100 transition-colors">
           {ship.displayName}
         </h3>
 
