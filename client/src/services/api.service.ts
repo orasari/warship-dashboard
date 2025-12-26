@@ -7,11 +7,19 @@ import {
 } from '../types/api.types';
 
 const API_BASE_URL = 'http://localhost:3001/api';
+const REQUEST_TIMEOUT = 10000; // 10 seconds
 
 class ApiService {
   private async fetchWithErrorHandling<T>(endpoint: string): Promise<T> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`);
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        signal: controller.signal,
+      });
+      
+      clearTimeout(timeoutId);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -25,8 +33,17 @@ class ApiService {
       
       return data.data;
     } catch (error) {
-      console.error(`Error fetching ${endpoint}:`, error);
-      throw error;
+      clearTimeout(timeoutId);
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          throw new Error('Request timeout - Unable to connect to the Vortex service. Please ensure the proxy server is running on port 3001.');
+        }
+        console.error(`Error fetching ${endpoint}:`, error);
+        throw error;
+      }
+      
+      throw new Error('An unexpected error occurred');
     }
   }
 
@@ -64,7 +81,12 @@ class ApiService {
       };
     } catch (error) {
       console.error('Error fetching all data:', error);
-      throw error;
+      
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+      
+      throw new Error('Failed to fetch data from the Vortex service');
     }
   }
 }

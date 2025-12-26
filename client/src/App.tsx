@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Loader, AlertCircle, SlidersHorizontal, X } from 'lucide-react';
+import { SlidersHorizontal, X } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { fetchAllData } from './features/ships/shipsSlice';
 import ShipList from './components/ShipList';
 import FilterPanel from './components/FilterPanel';
 import SearchBar from './components/SearchBar';
+import ApiErrorMessage from './components/ApiErrorMessage';
+import LoadingSpinner from './components/LoadingSpinner';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -20,40 +22,18 @@ export default function App() {
     }
   }, [dispatch, normalizedShips.length, loading]);
 
+  const handleRetry = () => {
+    dispatch(fetchAllData());
+  };
+
   const closeMobileFilters = () => setShowMobileFilters(false);
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
-        <div className="text-center">
-          <Loader className="w-12 h-12 text-blue-400 animate-spin mx-auto mb-4" />
-          <p className="text-blue-200 text-lg">Loading World of Warships Fleet...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner message="Loading World of Warships Fleet..." />;
   }
 
   if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center p-4">
-        <div className="bg-red-900/30 border border-red-500 rounded-lg p-6 max-w-md">
-          <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-red-200 mb-2 text-center">
-            Service Unavailable
-          </h2>
-          <p className="text-red-300 text-center mb-4">{error}</p>
-          <p className="text-sm text-red-200/70 text-center mb-4">
-            Make sure the proxy server is running on port 3001
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded transition-colors"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
+    return <ApiErrorMessage message={error} onRetry={handleRetry} />;
   }
 
   return (
