@@ -16,11 +16,11 @@ export default function App() {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
-    // Only fetch if we don't have ships data yet
-    if (normalizedShips.length === 0 && !loading) {
+    if (normalizedShips.length === 0 && !loading && !error) {
       dispatch(fetchAllData());
     }
-  }, [dispatch, normalizedShips.length, loading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
 
   const handleRetry = () => {
     dispatch(fetchAllData());
