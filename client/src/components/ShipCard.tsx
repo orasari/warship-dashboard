@@ -5,10 +5,9 @@ import { NormalizedShip } from '../types/api.types';
 
 interface ShipCardProps {
   ship: NormalizedShip;
-  style?: React.CSSProperties;
 }
 
-export default function ShipCard({ ship, style }: ShipCardProps) {
+export default function ShipCard({ ship }: ShipCardProps) {
   const [imgError, setImgError] = useState(false);
   const navigate = useNavigate();
 
@@ -16,11 +15,21 @@ export default function ShipCard({ ship, style }: ShipCardProps) {
     navigate(`/ship/${ship.id}`);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick();
+    }
+  };
+
   return (
     <div
-      style={style}
       onClick={handleClick}
-      className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-lg overflow-hidden hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20 flex flex-col h-full cursor-pointer group"
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="button"
+      aria-label={`View details for ${ship.displayName}`}
+      className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-lg overflow-hidden hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20 flex flex-col h-full cursor-pointer group focus:outline-none focus:ring-2 focus:ring-blue-500"
     >
       {/* Ship Image */}
       <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 h-40 flex items-center justify-center flex-shrink-0 group-hover:from-slate-700 group-hover:to-slate-800 transition-all">

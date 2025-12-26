@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
+import ErrorBoundary from './components/ErrorBoundary';
 import './index.css';
 
 // Eager load main app (always needed)
@@ -20,15 +21,17 @@ const LoadingFallback = () => (
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <Suspense fallback={<LoadingFallback />}>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/ship/:shipId" element={<ShipDetailPage />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              <Route path="/" element={<App />} />
+              <Route path="/ship/:shipId" element={<ShipDetailPage />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </Provider>
+    </ErrorBoundary>
   </React.StrictMode>
 );

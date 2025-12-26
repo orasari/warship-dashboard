@@ -3,18 +3,19 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { NormalizedShip } from '../types/api.types';
 import ShipCard from './ShipCard';
 
-const ESTIMATED_ROW_HEIGHT = 340; // Card height (280px) + gap (16px) + padding
-
 interface ShipListProps {
   ships: NormalizedShip[];
 }
 
+// Constants for better readability and maintainability
+const CARD_MIN_WIDTH = 280; // Minimum card width in pixels
+const GAP = 16; // Gap between cards in pixels
+const CARD_HEIGHT = 320; // Approximate card height in pixels
+const ESTIMATED_ROW_HEIGHT = CARD_HEIGHT + GAP; // Total row height including gap
+
 export default function ShipList({ ships }: ShipListProps) {
   const parentRef = useRef<HTMLDivElement>(null);
   const [columnCount, setColumnCount] = useState(4);
-  
-  const CARD_MIN_WIDTH = 280;
-  const GAP = 16;
 
   // Calculate columns based on container width
   useEffect(() => {
