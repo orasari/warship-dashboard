@@ -69,7 +69,7 @@ export default function FilterPanel() {
             ))}
 
             {/* Tier Pills */}
-            {filters.selectedLevels.sort((a, b) => a - b).map((level) => (
+            {[...filters.selectedLevels].sort((a, b) => a - b).map((level) => (
               <button
                 key={`tier-${level}`}
                 onClick={() => dispatch(toggleLevelFilter(level))}

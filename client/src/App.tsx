@@ -14,8 +14,11 @@ export default function App() {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchAllData());
-  }, [dispatch]);
+    // Only fetch if we don't have ships data yet
+    if (normalizedShips.length === 0 && !loading) {
+      dispatch(fetchAllData());
+    }
+  }, [dispatch, normalizedShips.length, loading]);
 
   const closeMobileFilters = () => setShowMobileFilters(false);
 

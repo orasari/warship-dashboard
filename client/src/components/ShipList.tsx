@@ -3,6 +3,8 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { NormalizedShip } from '../types/api.types';
 import ShipCard from './ShipCard';
 
+const ESTIMATED_ROW_HEIGHT = 340; // Card height (280px) + gap (16px) + padding
+
 interface ShipListProps {
   ships: NormalizedShip[];
 }
@@ -44,7 +46,7 @@ export default function ShipList({ ships }: ShipListProps) {
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 340, // Estimated row height (card height + gap)
+    estimateSize: () => ESTIMATED_ROW_HEIGHT,
     overscan: 3,
   });
 
