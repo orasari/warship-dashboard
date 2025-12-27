@@ -5,12 +5,12 @@ import ApiErrorMessage from './components/ApiErrorMessage';
 import LoadingSpinner from './components/LoadingSpinner';
 import {
   PageHeader,
-  DesktopSidebar,
   MobileSearchHeader,
   MobileFilterButton,
   MobileFilterModal,
-  MainContent,
 } from './components/Layout';
+import DesktopSidebar from './components/Layout/DesktopSidebar';
+import MainContent from './components/Layout/MainContent';
 
 export default function App() {
   const dispatch = useAppDispatch();

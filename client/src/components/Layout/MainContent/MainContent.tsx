@@ -1,5 +1,5 @@
-import ShipList from '../ShipList';
-import { NormalizedShip } from '../../types/api.types';
+import ShipList from '../../ShipList';
+import { NormalizedShip } from '../../../types/api.types';
 
 interface MainContentProps {
   ships: NormalizedShip[];
@@ -15,7 +15,7 @@ export default function MainContent({ ships }: MainContentProps) {
           </p>
         </div>
       ) : (
-        <ShipList ships={ships} />
+        <ShipList ships={ships} /> // children instead od ship list so it can be resused on other views
       )}
     </main>
   );

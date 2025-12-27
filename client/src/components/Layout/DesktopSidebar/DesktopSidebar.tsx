@@ -1,5 +1,5 @@
-import SearchBar from '../SearchBar';
-import FilterPanel from '../FilterPanel';
+import SearchBar from '../../SearchBar';
+import FilterPanel from '../../FilterPanel';
 
 interface DesktopSidebarProps {
   filteredCount: number;
