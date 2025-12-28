@@ -4,14 +4,14 @@ import { fetchAllData } from './features/ships/shipsSlice';
 import ApiErrorMessage from './components/ApiErrorMessage';
 import LoadingSpinner from './components/LoadingSpinner';
 import SortControls from './components/SortControls';
-import {
-  PageHeader,
-  MobileSearchHeader,
-  MobileFilterButton,
-  MobileFilterModal,
-} from './components/Layout';
+
 import DesktopSidebar from './components/Layout/DesktopSidebar';
 import MainContent from './components/Layout/MainContent';
+import ShipList from './components/ShipList';
+import MobileFilterButton from './components/Layout/MobileFilterButton';
+import MobileFilterModal from './components/Layout/MobileFilterModal';
+import MobileSearchHeader from './components/Layout/MobileSearchHeader';
+import PageHeader from './components/Layout/PageHeader';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -72,7 +72,9 @@ export default function App() {
             <SortControls />
           </div>
 
-          <MainContent ships={filteredShips} />
+          <MainContent >
+            <ShipList ships={filteredShips} />
+            </MainContent>
         </div>
       </div>
 

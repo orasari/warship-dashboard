@@ -2,21 +2,13 @@ import { NormalizedShip } from '../../../types/api.types';
 import ShipList from '../../ShipList';
 
 interface MainContentProps {
-  ships: NormalizedShip[];
+  children?: React.ReactNode;
 }
 
-export default function MainContent({ ships }: MainContentProps) {
+export default function MainContent({ children }: MainContentProps) {
   return (
     <main className="flex-1 overflow-hidden p-4 md:p-6">
-      {ships.length === 0 ? (
-        <div className="flex items-center justify-center h-full">
-          <p className="text-slate-400 text-lg">
-            No ships found matching your criteria
-          </p>
-        </div>
-      ) : (
-        <ShipList ships={ships} />
-      )}
+       <>{children}</>
     </main>
   );
 }

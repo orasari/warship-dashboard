@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import FilterPanel from '../FilterPanel';
+import FilterPanel from '../../FilterPanel';
 
 interface MobileFilterModalProps {
   isOpen: boolean;
