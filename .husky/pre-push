@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+cd client
+npm test -- --watchAll=false --passWithNoTests || exit 1
