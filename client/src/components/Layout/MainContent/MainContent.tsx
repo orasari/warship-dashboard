@@ -1,5 +1,5 @@
-import ShipList from '../../ShipList';
 import { NormalizedShip } from '../../../types/api.types';
+import ShipList from '../../ShipList';
 
 interface MainContentProps {
   ships: NormalizedShip[];
@@ -7,7 +7,7 @@ interface MainContentProps {
 
 export default function MainContent({ ships }: MainContentProps) {
   return (
-    <main className="flex-1 overflow-hidden p-4 md:p-6 pt-32 lg:pt-6">
+    <main className="flex-1 overflow-hidden p-4 md:p-6">
       {ships.length === 0 ? (
         <div className="flex items-center justify-center h-full">
           <p className="text-slate-400 text-lg">
@@ -15,7 +15,7 @@ export default function MainContent({ ships }: MainContentProps) {
           </p>
         </div>
       ) : (
-        <ShipList ships={ships} /> // children instead od ship list so it can be resused on other views
+        <ShipList ships={ships} />
       )}
     </main>
   );

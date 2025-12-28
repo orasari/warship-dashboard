@@ -56,12 +56,19 @@ export default function App() {
         />
 
         <div className="flex-1 flex flex-col overflow-hidden">
-          <MobileSearchHeader
-            filteredCount={filteredShips.length}
-            totalCount={normalizedShips.length}
-          />
+          {/* Mobile Sticky Header - Search + Sort */}
+          <div className="lg:hidden sticky top-0 z-20 bg-slate-900 border-b border-slate-700">
+            <MobileSearchHeader
+              filteredCount={filteredShips.length}
+              totalCount={normalizedShips.length}
+            />
+            <div className="px-4 pb-4">
+              <SortControls />
+            </div>
+          </div>
 
-          <div className="px-4 md:px-6 pt-4 lg:pt-6">
+          {/* Desktop Sort Controls */}
+          <div className="hidden lg:block px-4 md:px-6 pt-4 lg:pt-6">
             <SortControls />
           </div>
 
