@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+commit_msg=$(cat "$1")
+
+if ! echo "$commit_msg" | grep -qE "^WOW:"; then
+  echo ""
+  echo "❌ Commit must start with 'WOW:'"
+  echo ""
+  echo "Example: WOW: Add ship filtering"
+  echo ""
+  exit 1
+fi
+
+echo "✅ Valid commit message"
