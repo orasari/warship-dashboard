@@ -124,4 +124,59 @@ describe('shipsSlice', () => {
     expect(state.sortDirection).toBe('desc');
     expect(state.filteredShips[0].level).toBe(10); // Highest level first
   });
+
+  it('toggles type filter', () => {
+    const state = shipsReducer(initialState, toggleTypeFilter('Battleship'));
+    
+    expect(state.filters.selectedTypes).toContain('Battleship');
+    expect(state.filteredShips).toHaveLength(2);
+  });
+
+  it('toggles level filter', () => {
+    const state = shipsReducer(initialState, toggleLevelFilter(9));
+    
+    expect(state.filters.selectedLevels).toContain(9);
+    expect(state.filteredShips).toHaveLength(1);
+    expect(state.filteredShips[0].level).toBe(9);
+  });
+
+  it('toggles special filter', () => {
+    const state = shipsReducer(initialState, toggleSpecialFilter());
+    
+    expect(state.filters.showSpecialOnly).toBe(true);
+    expect(state.filters.showPremiumOnly).toBe(false);
+  });
+
+  it('combines multiple filters', () => {
+    let state = shipsReducer(initialState, toggleNationFilter('usa'));
+    state = shipsReducer(state, toggleLevelFilter(9));
+    
+    expect(state.filteredShips).toHaveLength(1);
+    expect(state.filteredShips[0].displayName).toBe('Iowa');
+  });
+
+  it('sorts by nation display name', () => {
+    const state = shipsReducer(initialState, setSortBy('nation'));
+    
+    expect(state.sortBy).toBe('nation');
+    expect(state.filteredShips[0].nationDisplay).toBe('Japan'); // Alphabetically first
+  });
+
+  it('sorts by type display name', () => {
+    const stateWithMixedTypes = {
+      ...initialState,
+      normalizedShips: [
+        { ...mockShips[0], type: 'Destroyer', typeDisplay: 'Destroyer' },
+        { ...mockShips[1], type: 'Battleship', typeDisplay: 'Battleship' },
+      ],
+      filteredShips: [
+        { ...mockShips[0], type: 'Destroyer', typeDisplay: 'Destroyer' },
+        { ...mockShips[1], type: 'Battleship', typeDisplay: 'Battleship' },
+      ],
+    };
+    
+    const state = shipsReducer(stateWithMixedTypes, setSortBy('type'));
+    
+    expect(state.filteredShips[0].typeDisplay).toBe('Battleship');
+  });
 });
