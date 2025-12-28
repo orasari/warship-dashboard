@@ -9,7 +9,6 @@ jest.mock('../../SearchBar', () => {
 });
 
 jest.mock('../../FilterPanel', () => {
-  
   return function FilterPanel() {
     return <div data-testid="filter-panel">Filter Panel</div>;
   };

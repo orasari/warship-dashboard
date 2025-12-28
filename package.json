@@ -2,9 +2,20 @@
   "name": "wows-fleet",
   "private": true,
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "start": "concurrently \"npm run start:proxy\" \"npm run start:client\" --names \"proxy,client\" --prefix-colors \"cyan,magenta\"",
+    "start:client": "cd client && npm start",
+    "start:proxy": "cd proxy && npm start",
+    "build": "cd client && npm run build",
+    "serve": "concurrently \"npm run start:proxy\" \"npm run serve:client\" --names \"proxy,client\" --prefix-colors \"cyan,magenta\"",
+    "serve:client": "cd client && npx serve -s build -p 3000",
+    "test": "cd client && npm test",
+    "test:coverage": "cd client && npm run test:coverage",
+    "lint": "cd client && npm run lint",
+    "format": "cd client && npm run format"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "husky": "^9.0.11"
   }
 }
