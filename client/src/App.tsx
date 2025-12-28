@@ -12,7 +12,6 @@ import MobileFilterModal from './components/Layout/MobileFilterModal';
 import MobileSearchHeader from './components/Layout/MobileSearchHeader';
 import PageHeader from './components/Layout/PageHeader';
 
-//test husky
 export default function App() {
   const dispatch = useAppDispatch();
   const { loading, error, filteredShips, normalizedShips } = useAppSelector(
@@ -87,3 +86,6 @@ export default function App() {
     </div>
   );
 }
+// test
+// test
+// test
