@@ -5,7 +5,10 @@ interface ApiErrorMessageProps {
   onRetry?: () => void;
 }
 
-export default function ApiErrorMessage({ message, onRetry }: ApiErrorMessageProps) {
+export default function ApiErrorMessage({
+  message,
+  onRetry,
+}: ApiErrorMessageProps) {
   return (
     <div className="page-container flex items-center justify-center p-4">
       <div className="card-base max-w-md text-center p-8">

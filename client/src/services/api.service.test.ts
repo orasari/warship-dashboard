@@ -38,7 +38,9 @@ describe('apiService', () => {
     const result = await apiService.getShips();
 
     expect(result).toEqual(mockShips);
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:3001/api/vehicles/');
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://localhost:3001/api/vehicles/'
+    );
   });
 
   it('fetches nations successfully', async () => {
@@ -71,7 +73,9 @@ describe('apiService', () => {
   it('throws error on HTTP error status', async () => {
     mockErrorResponse(404);
 
-    await expect(apiService.getShips()).rejects.toThrow('HTTP error! status: 404');
+    await expect(apiService.getShips()).rejects.toThrow(
+      'HTTP error! status: 404'
+    );
   });
 
   it('throws error when API returns error status', async () => {
@@ -80,7 +84,9 @@ describe('apiService', () => {
       json: async () => ({ status: 'error', data: null }),
     });
 
-    await expect(apiService.getShips()).rejects.toThrow('API returned error status');
+    await expect(apiService.getShips()).rejects.toThrow(
+      'API returned error status'
+    );
   });
 
   it('propagates errors from getAllData', async () => {

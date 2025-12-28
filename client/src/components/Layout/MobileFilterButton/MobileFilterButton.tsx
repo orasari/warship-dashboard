@@ -4,7 +4,9 @@ interface MobileFilterButtonProps {
   onClick: () => void;
 }
 
-export default function MobileFilterButton({ onClick }: MobileFilterButtonProps) {
+export default function MobileFilterButton({
+  onClick,
+}: MobileFilterButtonProps) {
   return (
     <button
       onClick={onClick}

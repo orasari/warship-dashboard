@@ -33,8 +33,8 @@ export default function ShipList({ ships }: ShipListProps) {
   }, []);
 
   // Calculate card width to fill available space
-  const cardWidth = parentRef.current 
-    ? (parentRef.current.offsetWidth - (GAP * (columnCount - 1))) / columnCount
+  const cardWidth = parentRef.current
+    ? (parentRef.current.offsetWidth - GAP * (columnCount - 1)) / columnCount
     : CARD_MIN_WIDTH;
 
   // Group ships into rows
@@ -65,7 +65,7 @@ export default function ShipList({ ships }: ShipListProps) {
       >
         {rowVirtualizer.getVirtualItems().map((virtualRow) => {
           const row = rows[virtualRow.index];
-          
+
           return (
             <div
               key={virtualRow.key}
@@ -78,18 +78,15 @@ export default function ShipList({ ships }: ShipListProps) {
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             >
-              <div
-                className="flex gap-4"
-                style={{ height: '100%' }}
-              >
+              <div className="flex gap-4" style={{ height: '100%' }}>
                 {row.map((ship, colIndex) => {
                   // Mark first card for LCP optimization
                   const isFirstCard = virtualRow.index === 0 && colIndex === 0;
-                  
+
                   return (
                     <div
                       key={ship.id}
-                      style={{ 
+                      style={{
                         width: `${cardWidth}px`,
                         flexShrink: 0,
                       }}

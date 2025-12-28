@@ -12,24 +12,24 @@ class ApiService {
   private async fetchWithErrorHandling<T>(endpoint: string): Promise<T> {
     try {
       const response = await fetch(`${API_BASE_URL}${endpoint}`);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data: ApiResponse<T> = await response.json();
-      
+
       if (data.status !== 'ok') {
         throw new Error('API returned error status');
       }
-      
+
       return data.data;
     } catch (error) {
       if (error instanceof Error) {
         console.error(`Error fetching ${endpoint}:`, error);
         throw error;
       }
-      
+
       throw new Error('An unexpected error occurred');
     }
   }
@@ -43,7 +43,9 @@ class ApiService {
   }
 
   async getVehicleTypes(): Promise<VehicleTypesData> {
-    return this.fetchWithErrorHandling<VehicleTypesData>('/vehicle_types_common/');
+    return this.fetchWithErrorHandling<VehicleTypesData>(
+      '/vehicle_types_common/'
+    );
   }
 
   async getMediaPath(): Promise<MediaPathData> {
@@ -67,11 +69,11 @@ class ApiService {
       };
     } catch (error) {
       console.error('Error fetching all data:', error);
-      
+
       if (error instanceof Error) {
         throw error;
       }
-      
+
       throw new Error('Failed to fetch data from the Vortex service');
     }
   }

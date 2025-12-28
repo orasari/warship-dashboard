@@ -1,11 +1,14 @@
-import SearchBar from "../../SearchBar";
+import SearchBar from '../../SearchBar';
 
 interface MobileSearchHeaderProps {
   filteredCount: number;
   totalCount: number;
 }
 
-export default function MobileSearchHeader({ filteredCount, totalCount }: MobileSearchHeaderProps) {
+export default function MobileSearchHeader({
+  filteredCount,
+  totalCount,
+}: MobileSearchHeaderProps) {
   return (
     <div className="px-4 pt-4">
       <SearchBar />

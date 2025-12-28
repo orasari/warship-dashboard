@@ -10,7 +10,9 @@ import {
 
 export default function FilterPanel() {
   const dispatch = useAppDispatch();
-  const { nations, vehicleTypes, filters } = useAppSelector((state) => state.ships);
+  const { nations, vehicleTypes, filters } = useAppSelector(
+    (state) => state.ships
+  );
 
   const [expandedSections, setExpandedSections] = useState({
     nations: false,
@@ -69,16 +71,18 @@ export default function FilterPanel() {
             ))}
 
             {/* Tier Pills */}
-            {[...filters.selectedLevels].sort((a, b) => a - b).map((level) => (
-              <button
-                key={`tier-${level}`}
-                onClick={() => dispatch(toggleLevelFilter(level))}
-                className="inline-flex items-center gap-1 bg-blue-600/20 text-blue-300 text-xs px-2 py-1 rounded-full hover:bg-blue-600/30 transition-colors"
-              >
-                Tier {level}
-                <X className="w-3 h-3" />
-              </button>
-            ))}
+            {[...filters.selectedLevels]
+              .sort((a, b) => a - b)
+              .map((level) => (
+                <button
+                  key={`tier-${level}`}
+                  onClick={() => dispatch(toggleLevelFilter(level))}
+                  className="inline-flex items-center gap-1 bg-blue-600/20 text-blue-300 text-xs px-2 py-1 rounded-full hover:bg-blue-600/30 transition-colors"
+                >
+                  Tier {level}
+                  <X className="w-3 h-3" />
+                </button>
+              ))}
           </div>
         </div>
       )}
@@ -100,9 +104,7 @@ export default function FilterPanel() {
           onClick={() => toggleSection('nations')}
           className="w-full flex items-center justify-between p-3 hover:bg-slate-700/30 transition-colors"
         >
-          <span className="text-sm font-medium text-slate-200">
-            Nations
-          </span>
+          <span className="text-sm font-medium text-slate-200">Nations</span>
           <div className="flex items-center gap-2">
             {filters.selectedNations.length > 0 && (
               <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
@@ -149,9 +151,7 @@ export default function FilterPanel() {
           onClick={() => toggleSection('types')}
           className="w-full flex items-center justify-between p-3 hover:bg-slate-700/30 transition-colors"
         >
-          <span className="text-sm font-medium text-slate-200">
-            Ship Types
-          </span>
+          <span className="text-sm font-medium text-slate-200">Ship Types</span>
           <div className="flex items-center gap-2">
             {filters.selectedTypes.length > 0 && (
               <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
@@ -198,9 +198,7 @@ export default function FilterPanel() {
           onClick={() => toggleSection('tiers')}
           className="w-full flex items-center justify-between p-3 hover:bg-slate-700/30 transition-colors"
         >
-          <span className="text-sm font-medium text-slate-200">
-            Tiers
-          </span>
+          <span className="text-sm font-medium text-slate-200">Tiers</span>
           <div className="flex items-center gap-2">
             {filters.selectedLevels.length > 0 && (
               <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">

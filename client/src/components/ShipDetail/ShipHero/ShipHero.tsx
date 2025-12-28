@@ -8,12 +8,12 @@ interface ShipHeroProps {
   isSpecial: boolean;
 }
 
-export default function ShipHero({ 
-  icon, 
-  displayName, 
-  level, 
-  isPremium, 
-  isSpecial 
+export default function ShipHero({
+  icon,
+  displayName,
+  level,
+  isPremium,
+  isSpecial,
 }: ShipHeroProps) {
   return (
     <div className="flex-1 w-full max-w-2xl">
@@ -24,7 +24,7 @@ export default function ShipHero({
           className="w-full h-full object-contain p-4"
           loading="eager"
         />
-        
+
         {/* Tier Badge */}
         <div className="absolute top-4 right-4 badge-tier-large">
           Tier {level}

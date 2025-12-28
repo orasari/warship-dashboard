@@ -6,7 +6,10 @@ interface MobileFilterModalProps {
   onClose: () => void;
 }
 
-export default function MobileFilterModal({ isOpen, onClose }: MobileFilterModalProps) {
+export default function MobileFilterModal({
+  isOpen,
+  onClose,
+}: MobileFilterModalProps) {
   if (!isOpen) return null;
 
   return (

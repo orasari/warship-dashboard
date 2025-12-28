@@ -32,7 +32,9 @@ export default function ShipDetailPage() {
     return (
       <div className="page-container flex items-center justify-center p-4">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-300 mb-4">Ship Not Found</h2>
+          <h2 className="text-2xl font-bold text-red-300 mb-4">
+            Ship Not Found
+          </h2>
           <button
             onClick={() => navigate('/')}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
@@ -109,7 +111,10 @@ export default function ShipDetailPage() {
 
           {/* Status Card */}
           <InfoCard title="Status">
-            <StatusBadge isPremium={ship.isPremium} isSpecial={ship.isSpecial} />
+            <StatusBadge
+              isPremium={ship.isPremium}
+              isSpecial={ship.isSpecial}
+            />
           </InfoCard>
         </div>
       </div>

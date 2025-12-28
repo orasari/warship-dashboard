@@ -6,7 +6,10 @@ interface DesktopSidebarProps {
   totalCount: number;
 }
 
-export default function DesktopSidebar({ filteredCount, totalCount }: DesktopSidebarProps) {
+export default function DesktopSidebar({
+  filteredCount,
+  totalCount,
+}: DesktopSidebarProps) {
   return (
     <aside className="hidden lg:flex w-80 bg-slate-900/50 border-r border-slate-700 flex-col flex-shrink-0">
       <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-4">

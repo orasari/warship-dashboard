@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Award, Sparkles } from 'lucide-react';
 import { NormalizedShip } from '../types/api.types';
@@ -25,28 +24,26 @@ export default function ShipCard({ ship, isFirstCard = false }: ShipCardProps) {
           height={225}
           loading={isFirstCard ? 'eager' : 'lazy'}
           fetchPriority={isFirstCard ? 'high' : 'auto'}
-            className="max-h-full max-w-full object-contain p-2 group-hover:scale-105 transition-transform"
+          className="max-h-full max-w-full object-contain p-2 group-hover:scale-105 transition-transform"
         />
 
         {/* Tier Badge */}
-        <div className="absolute top-2 right-2 badge-tier">
-          {ship.level}
-        </div>
+        <div className="absolute top-2 right-2 badge-tier">{ship.level}</div>
 
         {/* Premium Badge */}
         {ship.isPremium && (
           <div className="absolute top-2 left-2 badge-premium">
-            <Award className="w-3 h-3" />   
-                 Premium
+            <Award className="w-3 h-3" />
+            Premium
           </div>
         )}
-        
+
         {/* Special Badge */}
         {ship.isSpecial && !ship.isPremium && (
           <div className="absolute top-2 left-2 badge-special">
             <Sparkles className="w-3 h-3" />
             Special
-            </div>
+          </div>
         )}
       </div>
 
@@ -64,7 +61,7 @@ export default function ShipCard({ ship, isFirstCard = false }: ShipCardProps) {
             {ship.typeDisplay}
           </span>
         </div>
-        
+
         {ship.description && (
           <p className="text-xs text-slate-400 line-clamp-2 flex-grow">
             {ship.description}

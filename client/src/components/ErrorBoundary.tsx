@@ -32,7 +32,7 @@ class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       const isDev = process.env.NODE_ENV === 'development';
-      
+
       return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center p-4">
           <div className="bg-red-900/30 border border-red-500 rounded-lg p-6 max-w-md">

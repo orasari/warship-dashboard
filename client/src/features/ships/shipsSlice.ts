@@ -16,16 +16,16 @@ interface ShipsState {
   nations: Nation[];
   vehicleTypes: VehicleTypesData;
   mediaPath: string;
-  
+
   // Normalized/processed data
   normalizedShips: NormalizedShip[];
   filteredShips: NormalizedShip[];
-  
+
   // UI state
   filters: FilterState;
   sortBy: SortOption;
   sortDirection: SortDirection;
-  
+
   // Loading states
   loading: boolean;
   error: string | null;
@@ -54,8 +54,14 @@ const initialState: ShipsState = {
 
 // Helper function to extract ship type from tags
 const getShipType = (tags: string[]): string => {
-  const types = ['Submarine', 'Destroyer', 'Cruiser', 'Battleship', 'AirCarrier'];
-  return tags.find(tag => types.includes(tag)) || 'Unknown';
+  const types = [
+    'Submarine',
+    'Destroyer',
+    'Cruiser',
+    'Battleship',
+    'AirCarrier',
+  ];
+  return tags.find((tag) => types.includes(tag)) || 'Unknown';
 };
 
 // Helper function to normalize ship data
@@ -65,12 +71,14 @@ const normalizeShips = (
   vehicleTypes: VehicleTypesData,
   mediaPath: string
 ): NormalizedShip[] => {
-  const nationMap = new Map(nations.map(n => [n.name, n.localization.mark.en]));
-  
+  const nationMap = new Map(
+    nations.map((n) => [n.name, n.localization.mark.en])
+  );
+
   return Object.entries(ships).map(([id, ship]) => {
     const type = getShipType(ship.tags);
     const vehicleType = vehicleTypes[type];
-    
+
     return {
       id,
       name: ship.name,
@@ -84,7 +92,8 @@ const normalizeShips = (
       tags: ship.tags,
       icon: mediaPath + ship.icons.medium,
       isPremium: ship.tags.includes('premium'),
-      isSpecial: ship.tags.includes('special') || ship.tags.includes('uiSpecial'),
+      isSpecial:
+        ship.tags.includes('special') || ship.tags.includes('uiSpecial'),
     };
   });
 };
@@ -94,35 +103,35 @@ const filterShips = (
   ships: NormalizedShip[],
   filters: FilterState
 ): NormalizedShip[] => {
-  return ships.filter(ship => {
+  return ships.filter((ship) => {
     // Search query - only by name
     if (filters.searchQuery) {
       const query = filters.searchQuery.toLowerCase();
       const matchesName = ship.displayName.toLowerCase().includes(query);
       if (!matchesName) return false;
     }
-    
+
     // Nations filter
     if (filters.selectedNations.length > 0) {
       if (!filters.selectedNations.includes(ship.nation)) return false;
     }
-    
+
     // Types filter
     if (filters.selectedTypes.length > 0) {
       if (!filters.selectedTypes.includes(ship.type)) return false;
     }
-    
+
     // Levels filter
     if (filters.selectedLevels.length > 0) {
       if (!filters.selectedLevels.includes(ship.level)) return false;
     }
-    
+
     // Premium filter
     if (filters.showPremiumOnly && !ship.isPremium) return false;
-    
+
     // Special filter
     if (filters.showSpecialOnly && !ship.isSpecial) return false;
-    
+
     return true;
   });
 };
@@ -135,7 +144,7 @@ const sortShips = (
 ): NormalizedShip[] => {
   const sorted = [...ships].sort((a, b) => {
     let comparison = 0;
-    
+
     switch (sortBy) {
       case 'name':
         comparison = a.displayName.localeCompare(b.displayName);
@@ -150,10 +159,10 @@ const sortShips = (
         comparison = a.typeDisplay.localeCompare(b.typeDisplay);
         break;
     }
-    
+
     return sortDirection === 'asc' ? comparison : -comparison;
   });
-  
+
   return sorted;
 };
 
@@ -184,58 +193,58 @@ const shipsSlice = createSlice({
         state.sortDirection
       );
     },
-    
+
     toggleNationFilter: (state, action: PayloadAction<string>) => {
       const nation = action.payload;
       const index = state.filters.selectedNations.indexOf(nation);
-      
+
       if (index > -1) {
         state.filters.selectedNations.splice(index, 1);
       } else {
         state.filters.selectedNations.push(nation);
       }
-      
+
       state.filteredShips = sortShips(
         filterShips(state.normalizedShips, state.filters),
         state.sortBy,
         state.sortDirection
       );
     },
-    
+
     toggleTypeFilter: (state, action: PayloadAction<string>) => {
       const type = action.payload;
       const index = state.filters.selectedTypes.indexOf(type);
-      
+
       if (index > -1) {
         state.filters.selectedTypes.splice(index, 1);
       } else {
         state.filters.selectedTypes.push(type);
       }
-      
+
       state.filteredShips = sortShips(
         filterShips(state.normalizedShips, state.filters),
         state.sortBy,
         state.sortDirection
       );
     },
-    
+
     toggleLevelFilter: (state, action: PayloadAction<number>) => {
       const level = action.payload;
       const index = state.filters.selectedLevels.indexOf(level);
-      
+
       if (index > -1) {
         state.filters.selectedLevels.splice(index, 1);
       } else {
         state.filters.selectedLevels.push(level);
       }
-      
+
       state.filteredShips = sortShips(
         filterShips(state.normalizedShips, state.filters),
         state.sortBy,
         state.sortDirection
       );
     },
-    
+
     clearFilters: (state) => {
       state.filters = initialState.filters;
       state.filteredShips = sortShips(
@@ -244,7 +253,7 @@ const shipsSlice = createSlice({
         state.sortDirection
       );
     },
-    
+
     setSortBy: (state, action: PayloadAction<SortOption>) => {
       state.sortBy = action.payload;
       state.filteredShips = sortShips(
@@ -253,7 +262,7 @@ const shipsSlice = createSlice({
         state.sortDirection
       );
     },
-    
+
     setSortDirection: (state, action: PayloadAction<SortDirection>) => {
       state.sortDirection = action.payload;
       state.filteredShips = sortShips(
@@ -262,7 +271,7 @@ const shipsSlice = createSlice({
         state.sortDirection
       );
     },
-    
+
     togglePremiumFilter: (state) => {
       state.filters.showPremiumOnly = !state.filters.showPremiumOnly;
       // Turn off Special if Premium is being turned on
@@ -275,7 +284,7 @@ const shipsSlice = createSlice({
         state.sortDirection
       );
     },
-    
+
     toggleSpecialFilter: (state) => {
       state.filters.showSpecialOnly = !state.filters.showSpecialOnly;
       // Turn off Premium if Special is being turned on
@@ -301,7 +310,7 @@ const shipsSlice = createSlice({
         state.nations = action.payload.nations;
         state.vehicleTypes = action.payload.vehicleTypes;
         state.mediaPath = action.payload.mediaPath;
-        
+
         // Normalize ships
         state.normalizedShips = normalizeShips(
           action.payload.ships,
@@ -309,7 +318,7 @@ const shipsSlice = createSlice({
           action.payload.vehicleTypes,
           action.payload.mediaPath
         );
-        
+
         // Apply initial filtering and sorting
         state.filteredShips = sortShips(
           filterShips(state.normalizedShips, state.filters),

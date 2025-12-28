@@ -8,8 +8,10 @@ describe('InfoCard', () => {
         <p>Content</p>
       </InfoCard>
     );
-    
-    expect(screen.getByRole('heading', { name: 'Ship Details' })).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('heading', { name: 'Ship Details' })
+    ).toBeInTheDocument();
   });
 
   it('renders children content', () => {
@@ -19,7 +21,7 @@ describe('InfoCard', () => {
         <span>Additional info</span>
       </InfoCard>
     );
-    
+
     expect(screen.getByText('Test content')).toBeInTheDocument();
     expect(screen.getByText('Additional info')).toBeInTheDocument();
   });

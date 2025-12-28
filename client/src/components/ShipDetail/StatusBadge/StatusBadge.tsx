@@ -5,7 +5,10 @@ interface StatusBadgeProps {
   isSpecial: boolean;
 }
 
-export default function StatusBadge({ isPremium, isSpecial }: StatusBadgeProps) {
+export default function StatusBadge({
+  isPremium,
+  isSpecial,
+}: StatusBadgeProps) {
   if (isPremium) {
     return (
       <div className="flex items-center gap-2">
@@ -14,7 +17,7 @@ export default function StatusBadge({ isPremium, isSpecial }: StatusBadgeProps) 
       </div>
     );
   }
-  
+
   if (isSpecial) {
     return (
       <div className="flex items-center gap-2">
@@ -23,6 +26,6 @@ export default function StatusBadge({ isPremium, isSpecial }: StatusBadgeProps) 
       </div>
     );
   }
-  
+
   return <span className="text-slate-300">Standard Ship</span>;
 }

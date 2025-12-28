@@ -4,7 +4,9 @@ interface LoadingSpinnerProps {
   message?: string;
 }
 
-export default function LoadingSpinner({ message = 'Loading...' }: LoadingSpinnerProps) {
+export default function LoadingSpinner({
+  message = 'Loading...',
+}: LoadingSpinnerProps) {
   return (
     <div className="page-container flex items-center justify-center">
       <div className="text-center">

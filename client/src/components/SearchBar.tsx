@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Search, Award, Sparkles } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setSearchQuery, togglePremiumFilter, toggleSpecialFilter } from '../features/ships/shipsSlice';
+import {
+  setSearchQuery,
+  togglePremiumFilter,
+  toggleSpecialFilter,
+} from '../features/ships/shipsSlice';
 import { useDebounce } from '../hooks/useDebounce';
 
 export default function SearchBar() {
@@ -12,7 +16,7 @@ export default function SearchBar() {
 
   // Local state for the input value (updates immediately)
   const [inputValue, setInputValue] = useState(searchQuery);
-  
+
   // Debounced value (updates after 300ms of no typing)
   const debouncedSearchQuery = useDebounce(inputValue, 300);
 
@@ -44,7 +48,11 @@ export default function SearchBar() {
       <div className="flex gap-2">
         <button
           onClick={() => dispatch(togglePremiumFilter())}
-          className={showPremiumOnly ? 'btn-filter-active-premium' : 'btn-filter-inactive hover:text-purple-300'}
+          className={
+            showPremiumOnly
+              ? 'btn-filter-active-premium'
+              : 'btn-filter-inactive hover:text-purple-300'
+          }
         >
           <Award className="w-4 h-4" />
           Premium Only
@@ -52,7 +60,11 @@ export default function SearchBar() {
 
         <button
           onClick={() => dispatch(toggleSpecialFilter())}
-          className={showSpecialOnly ? 'btn-filter-active-special' : 'btn-filter-inactive hover:text-cyan-300'}
+          className={
+            showSpecialOnly
+              ? 'btn-filter-active-special'
+              : 'btn-filter-inactive hover:text-cyan-300'
+          }
         >
           <Sparkles className="w-4 h-4" />
           Special Only

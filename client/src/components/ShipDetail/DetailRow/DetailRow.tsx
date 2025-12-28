@@ -4,7 +4,11 @@ interface DetailRowProps {
   mono?: boolean;
 }
 
-export default function DetailRow({ label, value, mono = false }: DetailRowProps) {
+export default function DetailRow({
+  label,
+  value,
+  mono = false,
+}: DetailRowProps) {
   return (
     <div className="flex justify-between">
       <span className="text-slate-400">{label}:</span>
