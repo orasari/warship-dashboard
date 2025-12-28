@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from './app/hooks';
 import { fetchAllData } from './features/ships/shipsSlice';
 import ApiErrorMessage from './components/ApiErrorMessage';
 import LoadingSpinner from './components/LoadingSpinner';
+import SortControls from './components/SortControls';
 import {
   PageHeader,
   MobileSearchHeader,
@@ -54,12 +55,18 @@ export default function App() {
           totalCount={normalizedShips.length}
         />
 
-        <MobileSearchHeader
-          filteredCount={filteredShips.length}
-          totalCount={normalizedShips.length}
-        />
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <MobileSearchHeader
+            filteredCount={filteredShips.length}
+            totalCount={normalizedShips.length}
+          />
 
-        <MainContent ships={filteredShips} />
+          <div className="px-4 md:px-6 pt-4 lg:pt-6">
+            <SortControls />
+          </div>
+
+          <MainContent ships={filteredShips} />
+        </div>
       </div>
 
       <MobileFilterButton onClick={openMobileFilters} />
