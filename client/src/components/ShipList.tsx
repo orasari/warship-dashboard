@@ -82,17 +82,22 @@ export default function ShipList({ ships }: ShipListProps) {
                 className="flex gap-4"
                 style={{ height: '100%' }}
               >
-                {row.map((ship) => (
-                  <div
-                    key={ship.id}
-                    style={{ 
-                      width: `${cardWidth}px`,
-                      flexShrink: 0,
-                    }}
-                  >
-                    <ShipCard ship={ship} />
-                  </div>
-                ))}
+                {row.map((ship, colIndex) => {
+                  // Mark first card for LCP optimization
+                  const isFirstCard = virtualRow.index === 0 && colIndex === 0;
+                  
+                  return (
+                    <div
+                      key={ship.id}
+                      style={{ 
+                        width: `${cardWidth}px`,
+                        flexShrink: 0,
+                      }}
+                    >
+                      <ShipCard ship={ship} isFirstCard={isFirstCard} />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           );

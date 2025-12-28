@@ -5,45 +5,28 @@ import { NormalizedShip } from '../types/api.types';
 
 interface ShipCardProps {
   ship: NormalizedShip;
+  isFirstCard?: boolean;
 }
 
-export default function ShipCard({ ship }: ShipCardProps) {
-  const [imgError, setImgError] = useState(false);
+export default function ShipCard({ ship, isFirstCard = false }: ShipCardProps) {
   const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/ship/${ship.id}`);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleClick();
-    }
-  };
 
   return (
     <div
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      role="button"
-      aria-label={`View details for ${ship.displayName}`}
-      className="card-interactive flex flex-col h-full group"
+      onClick={() => navigate(`/ship/${ship.id}`)}
+      className="card-interactive  group cursor-pointer"
     >
-      {/* Ship Image */}
-      <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 h-40 flex items-center justify-center flex-shrink-0 group-hover:from-slate-700 group-hover:to-slate-800 transition-all">
-        {ship.icon && !imgError ? (
-          <img
-            src={ship.icon}
-            alt={ship.displayName}
-            onError={() => setImgError(true)}
+      {/* Image Container with fixed aspect ratio */}
+      <div className="relative  bg-gradient-to-br aspect-video bg-slate-800 rounded-t-lg overflow-hidden">
+        <img
+          src={ship.icon}
+          alt={`${ship.displayName} warship`}
+          width={400}
+          height={225}
+          loading={isFirstCard ? 'eager' : 'lazy'}
+          fetchPriority={isFirstCard ? 'high' : 'auto'}
             className="max-h-full max-w-full object-contain p-2 group-hover:scale-105 transition-transform"
-            loading="lazy"
-          />
-        ) : (
-          <div className="text-slate-600 text-4xl">⚓</div>
-        )}
+        />
 
         {/* Tier Badge */}
         <div className="absolute top-2 right-2 badge-tier">
@@ -53,17 +36,17 @@ export default function ShipCard({ ship }: ShipCardProps) {
         {/* Premium Badge */}
         {ship.isPremium && (
           <div className="absolute top-2 left-2 badge-premium">
-            <Award className="w-3 h-3" />
-            Premium
+            <Award className="w-3 h-3" />   
+                 Premium
           </div>
         )}
-
+        
         {/* Special Badge */}
         {ship.isSpecial && !ship.isPremium && (
           <div className="absolute top-2 left-2 badge-special">
             <Sparkles className="w-3 h-3" />
             Special
-          </div>
+            </div>
         )}
       </div>
 
@@ -81,7 +64,7 @@ export default function ShipCard({ ship }: ShipCardProps) {
             {ship.typeDisplay}
           </span>
         </div>
-
+        
         {ship.description && (
           <p className="text-xs text-slate-400 line-clamp-2 flex-grow">
             {ship.description}
