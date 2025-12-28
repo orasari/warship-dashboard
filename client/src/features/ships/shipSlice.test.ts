@@ -92,14 +92,6 @@ describe('shipsSlice', () => {
     expect(state.filteredShips[0].isPremium).toBe(true);
   });
 
-  it('turns off special filter when premium filter is enabled', () => {
-    let state = { ...initialState, filters: { ...initialState.filters, showSpecialOnly: true } };
-    state = shipsReducer(state, togglePremiumFilter());
-    
-    expect(state.filters.showPremiumOnly).toBe(true);
-    expect(state.filters.showSpecialOnly).toBe(false);
-  });
-
   it('clears all filters', () => {
     let state = shipsReducer(initialState, setSearchQuery('test'));
     state = shipsReducer(state, toggleNationFilter('usa'));

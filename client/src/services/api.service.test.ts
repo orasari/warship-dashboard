@@ -8,13 +8,11 @@ describe('apiService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.useFakeTimers();
     // Suppress console.error in tests
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
     consoleErrorSpy.mockRestore();
   });
 
@@ -40,10 +38,7 @@ describe('apiService', () => {
     const result = await apiService.getShips();
 
     expect(result).toEqual(mockShips);
-    expect(global.fetch).toHaveBeenCalledWith(
-      'http://localhost:3001/api/vehicles/',
-      expect.any(Object)
-    );
+    expect(global.fetch).toHaveBeenCalledWith('http://localhost:3001/api/vehicles/');
   });
 
   it('fetches nations successfully', async () => {
