@@ -15,7 +15,7 @@ git clone https://github.com/orasari/warship-dashboard.git
 cd warship-dashboard
 npm install
 
-# Install dependencies in /clinet & /proxy
+# Install dependencies in /client & /proxy
 cd client && npm install
 cd ../proxy && npm install
 cd ..
@@ -128,7 +128,7 @@ git push --no-verify
 ## 🏗️ Architecture
 
 **Why Proxy Server?**  
-Wargaming's Vortex API doesn't have CORS headers. The proxy solves this and adds file-based caching (24h).
+The Vortex API currently doesn't include CORS headers in its responses, which prevents direct browser-to-API communication due to browser security policies. The proxy acts as an intermediary to enable client-side access while also providing file-based caching (24h) for improved performance.
 
 **Why Redux Toolkit?**  
 Complex filtering state with multiple combinations. Redux DevTools make debugging easy.
@@ -141,6 +141,7 @@ All data loads once (11MB cached). Filtering/sorting is instant with no loading 
 
 **Image Optimization Note:**  
 Images are served from Wargaming's CDN as PNGs. Converting to WebP would require an image proxy. Current approach uses lazy loading + virtual scrolling (only ~10-20 images load at a time), which provides acceptable performance for this demo.
+
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed decisions and trade-offs.
 
@@ -207,9 +208,17 @@ Creates optimized build in `client/build/`:
 npm run serve
 ```
 
-**Deploy:**
-- Frontend: Vercel, Netlify, GitHub Pages
-- Proxy: Heroku, Railway, Render
+**Deployment Options:**
+
+**Frontend (Static):**
+- **Vercel** - Zero-config, automatic deployments, edge network
+- **Netlify** - Drag-and-drop deploys, instant cache invalidation
+- **GitHub Pages** - Free hosting, simple setup for static sites
+
+**Proxy (Node.js):**
+- **Railway** - Simple Node.js hosting, automatic HTTPS, generous free tier
+- **Render** - Free tier available, auto-deploy from Git
+- **Heroku** - Established platform, easy scaling (paid tiers)
 
 ---
 
