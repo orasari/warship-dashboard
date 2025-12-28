@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { useAppSelector } from '../app/hooks';
-import { ShipHero, ShipInfo, InfoCard, DetailRow, StatusBadge } from '../components/ShipDetail';
-
-
+import ShipInfo from '../components/ShipDetail/ShipInfo';
+import ShipHero from '../components/ShipDetail/ShipHero';
+import DetailRow from '../components/ShipDetail/DetailRow';
+import InfoCard from '../components/ShipDetail/InfoCard';
+import StatusBadge from '../components/ShipDetail/StatusBadge';
 
 export default function ShipDetailPage() {
   const { shipId } = useParams<{ shipId: string }>();

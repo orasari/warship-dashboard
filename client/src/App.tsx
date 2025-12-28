@@ -6,7 +6,6 @@ import LoadingSpinner from './components/LoadingSpinner';
 import SortControls from './components/SortControls';
 
 import DesktopSidebar from './components/Layout/DesktopSidebar';
-import MainContent from './components/Layout/MainContent';
 import ShipList from './components/ShipList';
 import MobileFilterButton from './components/Layout/MobileFilterButton';
 import MobileFilterModal from './components/Layout/MobileFilterModal';
@@ -72,9 +71,9 @@ export default function App() {
             <SortControls />
           </div>
 
-          <MainContent >
+          <main className="flex-1 overflow-hidden p-4 md:p-6">
             <ShipList ships={filteredShips} />
-            </MainContent>
+          </main>
         </div>
       </div>
 
