@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#1e3a8a"/>
+  
+  <!-- Ship hull (simplified) -->
+  <path d="M 8 18 L 10 14 L 22 14 L 24 18 L 22 20 L 10 20 Z" fill="#60a5fa"/>
+  
+  <!-- Mast -->
+  <rect x="15" y="8" width="2" height="6" fill="#cbd5e1"/>
+  
+  <!-- Sail -->
+  <path d="M 17 10 L 22 12 L 17 14 Z" fill="#f1f5f9"/>
+  
+  <!-- Waves -->
+  <path d="M 6 22 Q 10 21 14 22 Q 18 23 22 22 Q 26 21 30 22 L 30 30 L 6 30 Z" 
+        fill="#0ea5e9" opacity="0.4"/>
+</svg>
