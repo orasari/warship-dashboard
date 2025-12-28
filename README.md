@@ -12,7 +12,7 @@ A responsive web application for browsing and filtering World of Warships ship d
 - [Key Features](#key-features)
 
 
-## 🎯 Overview
+## Overview
 
 This project consists of two main components:
 
@@ -28,7 +28,7 @@ This project consists of two main components:
 - Caches API responses for better performance
 - Runs on `http://localhost:3001`
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────┐         ┌─────────────┐         ┌─────────────────┐
@@ -109,7 +109,7 @@ This project consists of two main components:
 - **node-fetch** - Fetch API for Node.js
 - **File-based caching** - Reduce API calls
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -156,7 +156,7 @@ npm start
 http://localhost:3000
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 wows-fleet/
@@ -187,7 +187,7 @@ wows-fleet/
 └── README.md
 ```
 
-## ✨ Key Features
+## Key Features
 
 ### Client Features
 
