@@ -10,8 +10,7 @@ A responsive web application for browsing and filtering World of Warships ship d
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
 - [Key Features](#key-features)
-- [Development](#development)
-- [Why This Tech Stack?](#why-this-tech-stack)
+
 
 ## 🎯 Overview
 
