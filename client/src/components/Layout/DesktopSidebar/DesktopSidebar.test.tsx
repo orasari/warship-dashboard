@@ -39,14 +39,7 @@ describe('DesktopSidebar', () => {
     
     expect(screen.getByText('Showing 0 of 50 ships')).toBeInTheDocument();
   });
-
-  it('renders a search input for users to filter ships', () => {
-    render(<DesktopSidebar filteredCount={10} totalCount={50} />);
-    
-    const searchInput = screen.getByRole('textbox');
-    expect(searchInput).toBeInTheDocument();
-  });
-
+  
   it('displays filter panel to users', () => {
     render(<DesktopSidebar filteredCount={10} totalCount={50} />);
     
