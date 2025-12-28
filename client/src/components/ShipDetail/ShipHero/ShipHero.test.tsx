@@ -13,7 +13,7 @@ describe('ShipHero', () => {
   it('displays ship image with correct alt text', () => {
     render(<ShipHero {...defaultProps} />);
 
-    const image = screen.getByAltText('USSeee Iowa');
+    const image = screen.getByAltText('USS Iowa');
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', '/ship-icon.png');
   });
