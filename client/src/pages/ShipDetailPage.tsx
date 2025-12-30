@@ -32,10 +32,11 @@ export default function ShipDetailPage() {
     return (
       <div className="page-container flex items-center justify-center p-4">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-300 mb-4">
+          <h1 className="text-2xl font-bold text-red-300 mb-4">
             Ship Not Found
-          </h2>
+          </h1>
           <button
+            type="button"
             onClick={() => navigate('/')}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
           >
@@ -51,18 +52,22 @@ export default function ShipDetailPage() {
       {/* Header */}
       <header className="bg-slate-900/80 backdrop-blur-sm border-b border-blue-500/30 sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-2 text-blue-300 hover:text-blue-200 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            Back to Fleet
-          </button>
+          <nav aria-label="Breadcrumb">
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="flex items-center gap-2 text-blue-300 hover:text-blue-200 transition-colors"
+              aria-label="Back to fleet list"
+            >
+              <ArrowLeft className="w-5 h-5" aria-hidden="true" />
+              Back to Fleet
+            </button>
+          </nav>
         </div>
       </header>
 
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 border-b border-slate-700">
+      <section className="relative bg-gradient-to-br from-slate-800 to-slate-900 border-b border-slate-700">
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="flex flex-col md:flex-row items-center gap-8">
             <ShipHero
@@ -80,33 +85,33 @@ export default function ShipDetailPage() {
             />
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Additional Info Section */}
-      <div className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12">
+        <h2 className="sr-only">Ship specifications</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Ship Details Card */}
           <InfoCard title="Ship Details">
-            <div className="space-y-3">
+            <dl className="space-y-3">
               <DetailRow label="Internal Name" value={ship.name} mono />
               <DetailRow label="Tier" value={ship.level} />
               <DetailRow label="Type" value={ship.typeDisplay} />
               <DetailRow label="Nation" value={ship.nationDisplay} />
-            </div>
+            </dl>
           </InfoCard>
 
           {/* Tags Card */}
           <InfoCard title="Tags">
-            <div className="flex flex-wrap gap-2">
+            <ul className="flex flex-wrap gap-2" role="list">
               {ship.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="bg-slate-700 px-3 py-1 rounded-full text-sm text-slate-300"
-                >
-                  {tag}
-                </span>
+                <li key={tag}>
+                  <span className="bg-slate-700 px-3 py-1 rounded-full text-sm text-slate-300">
+                    {tag}
+                  </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </InfoCard>
 
           {/* Status Card */}
@@ -117,7 +122,7 @@ export default function ShipDetailPage() {
             />
           </InfoCard>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
