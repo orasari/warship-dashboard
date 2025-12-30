@@ -119,5 +119,6 @@ Savings: 98% already achieved
 
 ---
 
-**Last Updated:** December 2025  
+**Last Updated:** 30th of December 2025
 **Version:** 1.0
+**Author:** Mina Stankovic
