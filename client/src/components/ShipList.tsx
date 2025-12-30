@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { NormalizedShip } from '../types/api.types';
 import ShipCard from './ShipCard';
@@ -7,14 +7,67 @@ interface ShipListProps {
   ships: NormalizedShip[];
 }
 
+// Constants
+const CARD_MIN_WIDTH = 280;
+const GAP = 16; // Gap between cards horizontally
+const CARD_HEIGHT = 320; // Base card height
+const CARD_MARGIN = 16; // ShipCard has mb-4 (16px)
+const ESTIMATED_ROW_HEIGHT = CARD_HEIGHT + CARD_MARGIN + 16; // Extra padding for safety
+
 export default function ShipList({ ships }: ShipListProps) {
   const parentRef = useRef<HTMLDivElement>(null);
+  const [columnCount, setColumnCount] = useState(4);
 
-  const virtualizer = useVirtualizer({
-    count: ships.length,
+  // Use ResizeObserver instead of window resize listener
+  useEffect(() => {
+    const updateColumns = (width: number) => {
+      const cols = Math.floor(width / (CARD_MIN_WIDTH + GAP));
+      setColumnCount(Math.max(1, cols));
+    };
+
+    if (!parentRef.current) return;
+
+    // Initial calculation
+    updateColumns(parentRef.current.offsetWidth);
+
+    // Performance optimization: Originally used window.addEventListener('resize')
+    // which fires on every window resize and caused stuttering during responsive testing.
+    // Switched to ResizeObserver which only fires when THIS container resizes,
+    // providing much smoother performance while maintaining responsive column layout.
+    // ResizeObserver is more efficient as it's targeted to the specific element
+    // and doesn't require manual debouncing like window resize events.
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width =
+          entry.contentBoxSize?.[0]?.inlineSize || entry.contentRect.width;
+        updateColumns(width);
+      }
+    });
+
+    resizeObserver.observe(parentRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  // Calculate card width
+  const cardWidth = parentRef.current
+    ? (parentRef.current.offsetWidth - GAP * (columnCount - 1)) / columnCount
+    : CARD_MIN_WIDTH;
+
+  // Group ships into rows
+  const rows: NormalizedShip[][] = [];
+  for (let i = 0; i < ships.length; i += columnCount) {
+    rows.push(ships.slice(i, i + columnCount));
+  }
+
+  // Virtualizer for rows
+  const rowVirtualizer = useVirtualizer({
+    count: rows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 360,
-    overscan: 15, // Render extra items for smooth scrolling
+    estimateSize: () => ESTIMATED_ROW_HEIGHT,
+    overscan: 3,
   });
 
   if (ships.length === 0) {
@@ -30,25 +83,61 @@ export default function ShipList({ ships }: ShipListProps) {
   return (
     <section
       ref={parentRef}
-      className="h-full w-full overflow-y-auto overflow-x-hidden px-2"
+      className="h-full w-full overflow-y-auto overflow-x-hidden"
       aria-label="Ship list"
     >
       <ul
-        className="grid gap-6"
         style={{
-          gridTemplateColumns:
-            'repeat(auto-fill, minmax(min(280px, 100%), 1fr))',
+          height: `${rowVirtualizer.getTotalSize()}px`,
+          width: '100%',
+          position: 'relative',
           listStyle: 'none',
           margin: 0,
-          padding: 0,
+          padding: '16px 8px', // Add top/bottom padding
         }}
       >
-        {ships.map((ship, index) => {
-          const isFirstCard = index === 0;
+        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+          const row = rows[virtualRow.index];
 
           return (
-            <li key={ship.id}>
-              <ShipCard ship={ship} isFirstCard={isFirstCard} />
+            <li
+              key={virtualRow.key}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: `${virtualRow.size}px`,
+                transform: `translateY(${virtualRow.start}px)`,
+                paddingBottom: `${CARD_MARGIN}px`, // Space between rows
+              }}
+            >
+              <ul
+                style={{
+                  display: 'flex',
+                  gap: `${GAP}px`,
+                  height: '100%',
+                  listStyle: 'none',
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
+                {row.map((ship, colIndex) => {
+                  const isFirstCard = virtualRow.index === 0 && colIndex === 0;
+
+                  return (
+                    <li
+                      key={ship.id}
+                      style={{
+                        width: `${cardWidth}px`,
+                        flexShrink: 0,
+                      }}
+                    >
+                      <ShipCard ship={ship} isFirstCard={isFirstCard} />
+                    </li>
+                  );
+                })}
+              </ul>
             </li>
           );
         })}
