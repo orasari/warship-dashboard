@@ -10,13 +10,28 @@ interface ShipCardProps {
 export default function ShipCard({ ship, isFirstCard = false }: ShipCardProps) {
   const navigate = useNavigate();
 
+  const handleClick = () => {
+    navigate(`/ship/${ship.id}`);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      navigate(`/ship/${ship.id}`);
+    }
+  };
+
   return (
-    <div
-      onClick={() => navigate(`/ship/${ship.id}`)}
-      className="card-interactive  group cursor-pointer"
+    <article
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+      aria-label={`View details for ${ship.displayName}`}
+      className="card-interactive group cursor-pointer mb-4"
     >
       {/* Image Container with fixed aspect ratio */}
-      <div className="relative  bg-gradient-to-br aspect-video bg-slate-800 rounded-t-lg overflow-hidden">
+      <div className="relative bg-gradient-to-br aspect-video bg-slate-800 rounded-t-lg overflow-hidden">
         <img
           src={ship.icon}
           alt={`${ship.displayName} warship`}
@@ -49,9 +64,9 @@ export default function ShipCard({ ship, isFirstCard = false }: ShipCardProps) {
 
       {/* Ship Info */}
       <div className="p-4 flex flex-col flex-grow">
-        <h3 className="font-bold text-base text-blue-200 mb-2 truncate group-hover:text-blue-100 transition-colors">
+        <h2 className="font-bold text-base text-blue-200 mb-2 truncate group-hover:text-blue-100 transition-colors">
           {ship.displayName}
-        </h3>
+        </h2>
 
         <div className="flex items-center gap-2 text-xs text-slate-400 mb-2 flex-wrap">
           <span className="bg-slate-700 px-2 py-1 rounded">
@@ -68,6 +83,6 @@ export default function ShipCard({ ship, isFirstCard = false }: ShipCardProps) {
           </p>
         )}
       </div>
-    </div>
+    </article>
   );
 }

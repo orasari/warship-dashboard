@@ -54,9 +54,9 @@ export default function App() {
           totalCount={normalizedShips.length}
         />
 
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <main className="flex-1 flex flex-col overflow-hidden">
           {/* Mobile Sticky Header - Search + Sort */}
-          <div className="lg:hidden sticky top-0 z-20 bg-slate-900 border-b border-slate-700">
+          <section className="lg:hidden sticky top-0 z-20 bg-slate-900 border-b border-slate-700">
             <MobileSearchHeader
               filteredCount={filteredShips.length}
               totalCount={normalizedShips.length}
@@ -64,17 +64,17 @@ export default function App() {
             <div className="px-4 pb-4">
               <SortControls />
             </div>
-          </div>
+          </section>
 
           {/* Desktop Sort Controls */}
-          <div className="hidden lg:block px-4 md:px-6 pt-4 lg:pt-6">
+          <section className="hidden lg:block px-4 md:px-6 pt-4 lg:pt-6">
             <SortControls />
-          </div>
+          </section>
 
-          <main className="flex-1 overflow-hidden p-4 md:p-6">
+          <section className="flex-1 overflow-hidden p-4 md:p-6">
             <ShipList ships={filteredShips} />
-          </main>
-        </div>
+          </section>
+        </main>
       </div>
 
       <MobileFilterButton onClick={openMobileFilters} />
@@ -86,6 +86,3 @@ export default function App() {
     </div>
   );
 }
-// test
-// test
-// test

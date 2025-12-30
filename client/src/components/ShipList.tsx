@@ -51,23 +51,37 @@ export default function ShipList({ ships }: ShipListProps) {
     overscan: 3,
   });
 
+  if (ships.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <p className="text-slate-400 text-lg">
+          No ships found. Try adjusting your filters.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div
+    <section
       ref={parentRef}
       className="h-full w-full overflow-y-auto overflow-x-hidden"
+      aria-label="Ship list"
     >
-      <div
+      <ul
         style={{
           height: `${rowVirtualizer.getTotalSize()}px`,
           width: '100%',
           position: 'relative',
+          listStyle: 'none',
+          margin: 0,
+          padding: 0,
         }}
       >
         {rowVirtualizer.getVirtualItems().map((virtualRow) => {
           const row = rows[virtualRow.index];
 
           return (
-            <div
+            <li
               key={virtualRow.key}
               style={{
                 position: 'absolute',
@@ -78,13 +92,21 @@ export default function ShipList({ ships }: ShipListProps) {
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             >
-              <div className="flex gap-4" style={{ height: '100%' }}>
+              <ul
+                className="flex gap-4"
+                style={{
+                  height: '100%',
+                  listStyle: 'none',
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
                 {row.map((ship, colIndex) => {
                   // Mark first card for LCP optimization
                   const isFirstCard = virtualRow.index === 0 && colIndex === 0;
 
                   return (
-                    <div
+                    <li
                       key={ship.id}
                       style={{
                         width: `${cardWidth}px`,
@@ -92,14 +114,14 @@ export default function ShipList({ ships }: ShipListProps) {
                       }}
                     >
                       <ShipCard ship={ship} isFirstCard={isFirstCard} />
-                    </div>
+                    </li>
                   );
                 })}
-              </div>
-            </div>
+              </ul>
+            </li>
           );
         })}
-      </div>
-    </div>
+      </ul>
+    </section>
   );
 }
