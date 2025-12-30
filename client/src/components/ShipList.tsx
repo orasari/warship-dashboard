@@ -93,7 +93,7 @@ export default function ShipList({ ships }: ShipListProps) {
           position: 'relative',
           listStyle: 'none',
           margin: 0,
-          padding: '16px 8px', // Add top/bottom padding
+          padding: '16px 8px',
         }}
       >
         {rowVirtualizer.getVirtualItems().map((virtualRow) => {
@@ -109,35 +109,26 @@ export default function ShipList({ ships }: ShipListProps) {
                 width: '100%',
                 height: `${virtualRow.size}px`,
                 transform: `translateY(${virtualRow.start}px)`,
-                paddingBottom: `${CARD_MARGIN}px`, // Space between rows
+                display: 'flex',
+                gap: `${GAP}px`,
+                paddingBottom: `${CARD_MARGIN}px`,
               }}
             >
-              <ul
-                style={{
-                  display: 'flex',
-                  gap: `${GAP}px`,
-                  height: '100%',
-                  listStyle: 'none',
-                  margin: 0,
-                  padding: 0,
-                }}
-              >
-                {row.map((ship, colIndex) => {
-                  const isFirstCard = virtualRow.index === 0 && colIndex === 0;
+              {row.map((ship, colIndex) => {
+                const isFirstCard = virtualRow.index === 0 && colIndex === 0;
 
-                  return (
-                    <li
-                      key={ship.id}
-                      style={{
-                        width: `${cardWidth}px`,
-                        flexShrink: 0,
-                      }}
-                    >
-                      <ShipCard ship={ship} isFirstCard={isFirstCard} />
-                    </li>
-                  );
-                })}
-              </ul>
+                return (
+                  <div
+                    key={ship.id}
+                    style={{
+                      width: `${cardWidth}px`,
+                      flexShrink: 0,
+                    }}
+                  >
+                    <ShipCard ship={ship} isFirstCard={isFirstCard} />
+                  </div>
+                );
+              })}
             </li>
           );
         })}
